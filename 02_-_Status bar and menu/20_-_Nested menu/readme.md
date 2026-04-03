@@ -1,69 +1,101 @@
-# 02 - Statuszeile und Menu
-## 20 - Menu verschachtelt
+# 02 - Status Bar and Menu
+## 20 - Nested Menu
 
 ![image.png](image.png)
 
-Menupunkt kann man auch ineinander verschachteln.
+Menu items can also be nested within each other.
 
 ---
-Bei der Statuszeile habe ich die Einträge verschachtelt, somit braucht man keine Zeiger.
-Ich finde dies auch übersichtlicher, als ein Variablen-Urwald.
+I've nested the entries in the status bar, so no pointers are needed.
+
+I also find this clearer than a jungle of variables.
 
 ```pascal
-  procedure TMyApp.InitStatusLine;
-  var
-    R: TRect;              // Rechteck für die Statuszeilen Position.
-  begin
-    GetExtent(R);
-    R.A.Y := R.B.Y - 1;
 
-    StatusLine := New(PStatusLine, Init(R, NewStatusDef(0, $FFFF,
-      NewStatusKey('~Alt+X~ Programm beenden', kbAltX, cmQuit,
-      NewStatusKey('~F10~ Menu', kbF10, cmMenu,
-      NewStatusKey('~F1~ Hilfe', kbF1, cmHelp, nil))), nil)));
-  end;
+procedure TMyApp.InitStatusLine;
+
+var
+
+R: TRect; // Rectangle for the status bar position.
+
+begin
+
+GetExtent(R);
+
+R.A.Y := R.B.Y - 1;
+
+
+```pascal`
+```````````````````````````````````````)`````````````````````````````````
+`
+`
+
+`
+`
+`
+`
+`
+`
+```
+`````````````
+
+``
+... StatusLine := New(PStatusLine, Init(R, NewStatusDef(0, $FFFF,
+
+NewStatusKey('~Alt+X~ Exit Program', kbAltX, cmQuit,
+
+NewStatusKey('~F10~ Menu', kbF10, cmMenu,
+
+NewStatusKey('~F1~ Help', kbF1, cmHelp, nil))), nil)));
+
+end;
+
 ```
 
-Folgendes Beispiel demonstriert ein verschachteltes Menü.
-Die Erzeugung ist auch verschachtelt.
+The following example demonstrates a nested menu.
 
-```Datei
-  Beenden
+The menu creation process is also nested.
+
+```File
+Exit
 Demo
-  Einfach 1
-  Verschachtelt
-    Menu 0
-    Menu 1
-    Menu 2
-  Einfach 2
-Hilfe
-  About
+Simple 1
+Nested
+Menu 0
+Menu 1
+Menu 2
+Simple 2
+Help
+About
 ```
-
 
 ```pascal
-  procedure TMyApp.InitMenuBar;
-  var
-    R: TRect;                   // Rechteck für die Menüzeilen-Position.
-  begin
-    GetExtent(R);
-    R.B.Y := R.A.Y + 1;
 
-    MenuBar := New(PMenuBar, Init(R, NewMenu(
-      NewSubMenu('~D~atei', hcNoContext, NewMenu(
-        NewItem('~B~eenden', 'Alt-X', kbAltX, cmQuit, hcNoContext, nil)),
+procedure TMyApp.InitMenuBar;
 
-      NewSubMenu('Dem~o~', hcNoContext, NewMenu(
-        NewItem('Einfach ~1~', '', kbNoKey, cmAbout, hcNoContext,
-        NewSubMenu('~V~erschachtelt', hcNoContext, NewMenu(
-          NewItem('Menu ~0~', '', kbNoKey, cmAbout, hcNoContext,
-          NewItem('Menu ~1~', '', kbNoKey, cmAbout, hcNoContext,
-          NewItem('Menu ~2~', '', kbNoKey, cmAbout, hcNoContext, nil)))),
-        NewItem('Einfach ~2~', '', kbNoKey, cmAbout, hcNoContext, nil)))),
+var
 
-      NewSubMenu('~H~ilfe', hcNoContext, NewMenu(
-        NewItem('~A~bout...', '', kbNoKey, cmAbout, hcNoContext, nil)), nil))))));
-  end;
+R: TRect; // Rectangle for the menu bar position.
+
+begin
+
+GetExtent(R);
+
+` ... R.B.Y := R.A.Y + 1;
+
+MenuBar := New(PMenuBar, Init(R, NewMenu( 
+NewSubMenu('~File', hcNoContext, NewMenu( 
+NewItem('~B~end', 'Alt-X', kbAltX, cmQuit, hcNoContext, nil)), 
+
+NewSubMenu('Dem~o~', hcNoContext, NewMenu( 
+NewItem('Simple ~1~', '', kbNoKey, cmAbout, hcNoContext, 
+NewSubMenu('~V~nested', hcNoContext, NewMenu( 
+NewItem('Menu ~0~', '', kbNoKey, cmAbout, hcNoContext, 
+NewItem('Menu ~1~', '', kbNoKey, cmAbout, hcNoContext, 
+NewItem('Menu ~2~', '', kbNoKey, cmAbout, hcNoContext, nil)))), 
+NewItem('Simple ~2~', '', kbNoKey, cmAbout, hcNoContext, nil)))), 
+
+NewSubMenu('~Help', hcNoContext, NewMenu( 
+NewItem('~A~bout...', '', kbNoKey, cmAbout, hcNoContext, nil)), nil)))))); 
+end;
 ```
-
-
