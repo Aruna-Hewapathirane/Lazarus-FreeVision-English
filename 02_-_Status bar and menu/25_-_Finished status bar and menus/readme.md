@@ -10,8 +10,7 @@ The status bar is textless; the only thing it displays is quick commands (cmQuit
 
 Nothing happens after **OS shell** and **Exit**.
 
-
----Using **StdStatusKeys(...)**, a status line is created, but as described above, no text is displayed.
+Using **StdStatusKeys(...)**, a status line is created, but as described above, no text is displayed.
 
 ```pascal
 
@@ -25,7 +24,6 @@ StatusLine := New(PStatusLine, Init(R, NewStatusDef(0, $FFFF, StdStatusKeys(nil)
 end;
 ```
 
-
 There are 3 ready-made menu items: File, Edit, and Window, but they are in English.
 
 ```pascal
@@ -33,13 +31,9 @@ There are 3 ready-made menu items: File, Edit, and Window, but they are in Engli
 procedure TMyApp.InitMenuBar;
 
 var
-
 R: TRect;
-
 begin
-
 GetExtent(R);
-
 R.B.Y := R.A.Y + 1;
 
 MenuBar := New(PMenuBar, Init(R, NewMenu( 
