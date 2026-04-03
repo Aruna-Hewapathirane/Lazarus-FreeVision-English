@@ -1,92 +1,125 @@
 //image image.png
 (*
-Menupunkt kann man auch ineinander verschachteln.
+Menu items can also be nested.
 *)
-//lineal
+//ruleral
 program Project1;
 
 uses
-  App,      // TApplication
-  Objects,  // Fensterbereich (TRect)
-  Drivers,  // Hotkey
-  Views,    // Ereigniss (cmQuit)
-  Menus;    // Statuszeile
+
+App, // TApplication
+
+Objects, // Window area (TRect)
+
+Drivers, // Hotkey
+
+Views, // Event (cmQuit)
+
+Menu(s); // Status bar
 
 const
-  cmList = 1002;      // Datei Liste
-  cmAbout = 1001;     // About anzeigen
+cmList = 1002; // File list
+cmAbout = 1001; // Display About
 
 type
-  TMyApp = object(TApplication)
-    procedure InitStatusLine; virtual;   // Statuszeile
-    procedure InitMenuBar; virtual;      // Menü
-  end;
-(*
-Bei der Statuszeile habe ich die Einträge verschachtelt, somit braucht man keine Zeiger.
-Ich finde dies auch übersichtlicher, als ein Variablen-Urwald.
+TMyApp = object(TApplication)
+
+procedure InitStatusLine; virtual; // Status bar
+
+procedure InitMenuBar; virtual; // Menu
+
+end;
+
+(* I nested the entries in the status bar, so no pointers are needed.
+I also find this clearer than a jungle of variables.
 *)
 //code+
-  procedure TMyApp.InitStatusLine;
-  var
-    R: TRect;              // Rechteck für die Statuszeilen Position.
-  begin
-    GetExtent(R);
-    R.A.Y := R.B.Y - 1;
 
-    StatusLine := New(PStatusLine, Init(R, NewStatusDef(0, $FFFF,
-      NewStatusKey('~Alt+X~ Programm beenden', kbAltX, cmQuit,
-      NewStatusKey('~F10~ Menu', kbF10, cmMenu,
-      NewStatusKey('~F1~ Hilfe', kbF1, cmHelp, nil))), nil)));
-  end;
-//code-
-
-(*
-Folgendes Beispiel demonstriert ein verschachteltes Menü.
-Die Erzeugung ist auch verschachtelt.
-//codetext+
-Datei
-  Beenden
-Demo
-  Einfach 1
-  Verschachtelt
-    Menu 0
-    Menu 1
-    Menu 2
-  Einfach 2
-Hilfe
-  About
-//codetext-
-*)
-  //code+
-  procedure TMyApp.InitMenuBar;
-  var
-    R: TRect;                   // Rechteck für die Menüzeilen-Position.
-  begin
-    GetExtent(R);
-    R.B.Y := R.A.Y + 1;
-
-    MenuBar := New(PMenuBar, Init(R, NewMenu(
-      NewSubMenu('~D~atei', hcNoContext, NewMenu(
-        NewItem('~B~eenden', 'Alt-X', kbAltX, cmQuit, hcNoContext, nil)),
-
-      NewSubMenu('Dem~o~', hcNoContext, NewMenu(
-        NewItem('Einfach ~1~', '', kbNoKey, cmAbout, hcNoContext,
-        NewSubMenu('~V~erschachtelt', hcNoContext, NewMenu(
-          NewItem('Menu ~0~', '', kbNoKey, cmAbout, hcNoContext,
-          NewItem('Menu ~1~', '', kbNoKey, cmAbout, hcNoContext,
-          NewItem('Menu ~2~', '', kbNoKey, cmAbout, hcNoContext, nil)))),
-        NewItem('Einfach ~2~', '', kbNoKey, cmAbout, hcNoContext, nil)))),
-
-      NewSubMenu('~H~ilfe', hcNoContext, NewMenu(
-        NewItem('~A~bout...', '', kbNoKey, cmAbout, hcNoContext, nil)), nil))))));
-  end;
-  //code-
+procedure TMyApp.InitStatusLine;
 
 var
-  MyApp: TMyApp;
+R: TRect; // Rectangle for the status bar position.
 
 begin
-  MyApp.Init;   // Inizialisieren
-  MyApp.Run;    // Abarbeiten
-  MyApp.Done;   // Freigeben
+GetExtent(R); R.A.Y := R.B.Y - 1;
+
+StatusLine := New(PStatusLine, Init(R, NewStatusDef(0, $FFFF,
+
+NewStatusKey('~Alt+X~ Exit Program', kbAltX, cmQuit,
+
+NewStatusKey('~F10~ Menu', kbF10, cmMenu,
+
+NewStatusKey('~F1~ Help', kbF1, cmHelp, nil))), nil)));
+
+end;
+
+/code-
+
+(*
+The following example demonstrates a nested menu.
+
+The creation process is also nested.
+
+//codetext+
+File
+Exit
+Demo
+Simple 1
+Nested
+Menu 0
+Menu 1
+Menu 2
+Simple 2
+Help
+About
+
+//codetext-
+*)
+
+//code+
+
+procedure TMyApp.InitMenuBar;
+
+var
+
+R: TRect; // Rectangle for the menu bar position.
+
+begin
+
+GetExtent(R);
+
+R.B.Y := R.A.Y + 1;
+
+
+``` MenuBar := New(PMenuBar, Init(R, NewMenu( 
+NewSubMenu('~File', hcNoContext, NewMenu( 
+NewItem('~B~end', 'Alt-X', kbAltX, cmQuit, hcNoContext, nil)), 
+
+NewSubMenu('Dem~o~', hcNoContext, NewMenu( 
+NewItem('Simple ~1~', '', kbNoKey, cmAbout, hcNoContext, 
+NewSubMenu('~V~nested', hcNoContext, NewMenu( 
+NewItem('Menu ~0~', '', kbNoKey, cmAbout, hcNoContext, 
+NewItem('Menu ~1~', '', kbNoKey, cmAbout, hcNoContext, 
+NewItem('Menu ~2~', '', kbNoKey, cmAbout, hcNoContext, nil)))),
+
+NewItem('Simple ~2~', '', kbNoKey, cmAbout, hcNoContext, nil)))),
+
+NewSubMenu('~Help', hcNoContext, NewMenu(
+
+NewItem('~A~bout...', '', kbNoKey, cmAbout, hcNoContext, nil)), nil))))));
+end;
+
+//code-
+
+var
+
+MyApp: TMyApp;
+
+begin
+
+MyApp.Init; // Initialize
+
+MyApp.Run; // Execute
+
+MyApp.Done; // Release
 end.
