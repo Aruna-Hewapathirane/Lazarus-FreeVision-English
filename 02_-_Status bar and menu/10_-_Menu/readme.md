@@ -1,53 +1,68 @@
-# 02 - Statuszeile und Menu
+# 02 - Status Bar and Menu
 ## 10 - Menu
 
 ![image.png](image.png)
 
-Hinzufügen eines Menüs.
+Adding a menu.
 
 ---
-Für das Menü werden die gleichen Units wie für die Statuszeile gebraucht.
+The same units are used for the menu as for the status bar.
 
 ```pascal
 uses
-  App,      // TApplication
-  Objects,  // Fensterbereich (TRect)
-  Drivers,  // Hotkey
-  Views,    // Ereigniss (cmQuit)
-  Menus;    // Statuszeile
+App, // TApplication
+Objects, // Window area (TRect)
+Drivers, // Hotkey
+Views, // Event (cmQuit)
+Menus; // Status bar
 ```
 
-Für ein Menu muss man **InitMenuBar** vererben.
+For a menu, you must inherit **InitMenuBar**.
 
 ```pascal
 type
-  TMyApp = object(TApplication)
-    procedure InitStatusLine; virtual;   // Statuszeile
-    procedure InitMenuBar; virtual;      // Menü
-  end;
+TMyApp = object(TApplication)
+
+procedure InitStatusLine; virtual; // Status bar
+
+procedure InitMenuBar; virtual; // Menu
+
+end;
+
 ```
 
-Das Menü erzeugen, das Beispiel hat nur eine einziger Menüpunkt, Beenden.
-Beim Menü sind die Zeichen die mit **~x~** hervorgehoben sind nicht nur Optischen, sonder auch funktionell.
-Zum beenden, kann man auch **[Alt+s]**, **[b]** drücken.
-Es gibt auch direkte HotKey auf die Menüpunkte, hier im Beipiel ist die **[Alt+x]** für beenden.
-Dieses überschneidet sich hier zufällig mit **[Alt+x]** von der Statuszeile, aber dies ist egal.
-Der Aufbau der Menüerzeugung ist ähnlich der Statuszeile.
-Beim letzten Menüpunkt kommt immer ein **nil**.
+Create the menu; the example has only one menu item. Exit.
+
+In the menu, the characters highlighted with **~x~** are not only visual but also functional.
+
+To exit, you can also press **[Alt+s]** or **[b]**.
+
+There are also direct hotkeys for the menu items; in this example, **[Alt+x]** is for exiting.
+
+This happens to overlap with **[Alt+x]** for the status bar, but that doesn't matter.
+
+The menu creation structure is similar to the status bar.
+
+The last menu item always displays **nil**.
 
 ```pascal
-  procedure TMyApp.InitMenuBar;
-  var
-    R: TRect;           // Rechteck für die Memüzeile Position.
-  begin
-    GetExtent(R);
-    R.B.Y := R.A.Y + 1; // Position des Menüs, auf oberste Zeile der App setzen.
 
-    MenuBar := New(PMenuBar, Init(R, NewMenu(
-      NewSubMenu('~D~atei', hcNoContext, NewMenu(
-      NewItem('~B~eenden', 'Alt-X', kbAltX, cmQuit, hcNoContext,
-      nil)), nil))));
-  end;
+procedure TMyApp.InitMenuBar;
+
+var
+
+R: TRect; // Rectangle for the menu bar position.
+
+begin
+
+GetExtent(R);
+
+R.B.Y := R.A.Y + 1; // Set the menu position to the top row of the app.
+
+
+```pascal` MenuBar := New(PMenuBar, Init(R, NewMenu( 
+NewSubMenu('~File', hcNoContext, NewMenu( 
+NewItem('~B~end', 'Alt-X', kbAltX, cmQuit, hcNoContext, 
+nil)), nil)))); 
+end;
 ```
-
-
