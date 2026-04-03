@@ -1,13 +1,9 @@
 //image image.png
 (*
 The entire menu and status bar can be replaced at runtime.
-
 For example, to make the application multilingual.
-
 To do this, the current component is removed and the new one inserted.
-
 In this example, there is one German and one English component.
-
 *)
 
 //ruleral
@@ -44,7 +40,6 @@ procedure HandleEvent(var Event: TEvent); virtual; // Event handler
 private
 
 menuGer, menuEng: PMenuView; // The two menus
-
 StatusGer, StatusEng: PStatusLine; // The two status lines
 
 end;
