@@ -1,66 +1,92 @@
 //image image.png
 (*
-Für die Statuszeile und das Menü gibt es fertige Items, aber ich bevorzuge es, die Items selbst zu erstellen.
-Die fetigen Items sind nur in Englisch.
-Die Statuszeile ist Textlos, das einzige, sie bringt Schnellkomandos mit. ( cmQuit, cmMenu, cmClose, cmZoom, cmNext, cmPrev )
-Bis aus <b>OS shell</b> und <b>Exit</b> passiert nichts.
+There are pre-made items for the status bar and the menu, but I prefer to create them myself.
+
+The pre-made items are only available in English.
+
+The status bar is textless; the only thing it displays is quick commands. (cmQuit, cmMenu, cmClose, cmZoom, cmNext, cmPrev)
+Unless you use <b>OS shell</b> or <b>Exit</b>, nothing happens.
+
 *)
-//lineal
+
+//ruleral
 program Project1;
 
 uses
-  App,      // TApplication
-  Objects,  // Fensterbereich (TRect)
-  Drivers,  // Hotkey
-  Views,    // Ereigniss (cmQuit)
-  Menus;    // Statuszeile
+
+App, // TApplication
+Objects, // Window area (TRect)
+Drivers, // Hotkey
+Views, // Event (cmQuit)
+MenuS; // Status bar
 
 type
-  TMyApp = object(TApplication)
-    procedure InitStatusLine; virtual;   // Statuszeile
-    procedure InitMenuBar; virtual;      // Menü
-  end;
-(*
-Mit <b>StdStatusKeys(...</b> wird eine Statuszeile estellt, aber wie oben beschrieben, sieht man keinne Text.
-*)
-//code+
-  procedure TMyApp.InitStatusLine;
-  var
-    R: TRect;
-  begin
-    GetExtent(R);
-    R.A.Y := R.B.Y - 1;
+TMyApp = object(TApplication)
 
-    StatusLine := New(PStatusLine, Init(R, NewStatusDef(0, $FFFF, StdStatusKeys(nil), nil)));
-  end;
+procedure InitStatusLine; virtual; // Status bar
+procedure InitMenuBar; virtual; // Menu
+
+end;
+
+(*
+Using `StdStatusKeys(...)` creates a status line, but as described above, no text is displayed.
+
+*)
+
+//code+
+
+procedure TMyApp.InitStatusLine;
+
+var
+
+R: TRect;
+
+begin
+
+GetExtent(R);
+
+R.A.Y := R.B.Y - 1;
+
+StatusLine := New(PStatusLine, Init(R, NewStatusDef(0, $FFFF, StdStatusKeys(nil), nil)));
+
+end;
+
 //code-
 
 (*
-Fur das Menü gibt es 3 fertige Items, für Datei, Bearbeiten und Fenster, aber eben in Englisch.
-*)
-  //code+
-  procedure TMyApp.InitMenuBar;
-  var
-    R: TRect;
-  begin
-    GetExtent(R);
-    R.B.Y := R.A.Y + 1;
+There are 3 ready-made menu items: File, Edit, and Window, but they are in English.
 
-    MenuBar := New(PMenuBar, Init(R, NewMenu(
-      NewSubMenu('~D~atei', hcNoContext, NewMenu(
-        StdFileMenuItems (nil)),
-      NewSubMenu('~B~earbeiten', hcNoContext, NewMenu(
-         StdEditMenuItems (nil)),
-      NewSubMenu('~F~enster', hcNoContext, NewMenu(
-        StdWindowMenuItems(nil)), nil))))));
-  end;
-  //code-
+*)
+
+//code+
+
+procedure TMyApp.InitMenuBar;
 
 var
-  MyApp: TMyApp;
+
+R: TRect;
 
 begin
-  MyApp.Init;   // Inizialisieren
-  MyApp.Run;    // Abarbeiten
-  MyApp.Done;   // Freigeben
+
+GetExtent(R);
+
+R.B.Y := R.A.Y + 1;
+
+MenuBar := New(PMenuBar, Init(R, NewMenu( 
+NewSubMenu('~File', hcNoContext, NewMenu( 
+StdFileMenuItems (nil)), 
+NewSubMenu('~Edit', hcNoContext, NewMenu( 
+StdEditMenuItems (nil)), 
+NewSubMenu('~Window', hcNoContext, NewMenu( 
+StdWindowMenuItems(nil)), nil)))))); 
+end; 
+//code-
+
+var 
+MyApp: TMyApp;
+
+begin 
+MyApp.Init; // Initialize 
+MyApp.Run; // Process 
+MyApp.Done; // Release
 end.
