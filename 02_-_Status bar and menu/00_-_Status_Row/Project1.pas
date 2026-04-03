@@ -1,66 +1,94 @@
 //image image.png
 (*
-Ändern der Status-Zeile.
-Die Statuszeile wird gebraucht um wichtige Information und HotKey anzuzeigen.
+Changing the status line.
+The status line is used to display important information and hotkeys.
 *)
-//lineal
+//ruleral
 program Project1;
 
 (*
-Für die Statuszeile werden noch verschiedene Units gebraucht.
+Various units are needed for the status line.
 *)
 //code+
 uses
-  App,      // TApplication
-  Objects,  // Fensterbereich (TRect)
-  Drivers,  // Hotkey
-  Views,    // Ereigniss (cmQuit)
-  Menus;    // Statuszeile
+App, // TApplication
+Objects, // Window area (TRect)
+Drivers, // Hotkey
+Views, // Event (cmQuit)
+Menus; // Status line
 //code-
 
 (*
-Wen man etwas ändern will, muss man TApplication vererben.
-Hier im Beispiel, wird die Statuszeile abgeändert, dazu muss man die Procedure <b>InitStatusLine</b> überschreiben.
+To change something, you have to inherit TApplication.
+
+In this example, the status line is changed; to do this, you have to override the procedure <b>InitStatusLine</b>.
+
 *)
 //code+
 type
-  TMyApp = object(TApplication)
-    procedure InitStatusLine; virtual;
+TMyApp = object(TApplication)
+
+procedure InitStatusLine; virtual;
+
 end;
+
 //code.
 
-(*
-Die neue Methode für die Statuszeile.
-<b>GetExtent(Rect);</b> liefert die Grösse des Fensters.
-<b>A</b> ist die Position Links-Oben und <b>B</b ist Rechts-Unten.
-Das man den Hotkey besser sieht, schreibt man ihn in <b>~xxx~</b>.
-*)
-  //code+
-  procedure TMyApp.InitStatusLine;
-  var
-    R: TRect;           // Rechteck für die Statuszeilen Position.
-  begin
-    GetExtent(R);       // Liefert die Grösse/Position der App, im Normalfall 0, 0, 80, 24.
-    R.A.Y := R.B.Y - 1; // Position der Statuszeile, auf unterste Zeile der App setzen.
 
-    StatusLine := New(PStatusLine, Init(R, NewStatusDef(0, $FFFF, NewStatusKey('~Alt+X~ Programm beenden', kbAltX, cmQuit, nil), nil)));
-  end;
-  //code-
+``` (*
+The new method for the status bar.
 
-(*
-Das die neue Statuszeile verwendet wird muss man den Nachkomme anstelle von <b>TApplication</b> deklarieren.
+<b>GetExtent(Rect);</b> returns the size of the window.
+
+<b>A</b> is the top-left position and <b>B</b> is the bottom-right position.
+
+To make the hotkey more visible, enclose it in <b>~xxx~</b>.
+
 *)
+
 //code+
+
+procedure TMyApp.InitStatusLine;
+
 var
-  MyApp: TMyApp;
+
+R: TRect; // Rectangle for the status bar position.
+
+begin
+
+GetExtent(R); // Returns the size/position of the app, normally 0, 0, 80, 24.
+
+R.A.Y := R.B.Y - 1; // Position of the status bar, set to the bottom line of the app.
+
+
+StatusLine := New(PStatusLine, Init(R, NewStatusDef(0, $FFFF, NewStatusKey('~Alt+X~ Exit Program', kbAltX, cmQuit, nil), nil)));
+
+end;
+
 //code-
+
 (*
-Die  bleibt gleich.
+To use the new status line, you must declare the decimal instead of <b>TApplication</b>.
+
 *)
+
+//code+
+
+var
+MyApp: TMyApp;
+
+//code-
+
+(*
+This remains the same.
+
+*)
+
 //code+
 begin
-  MyApp.Init;   // Inizialisieren
-  MyApp.Run;    // Abarbeiten
-  MyApp.Done;   // Freigeben
+MyApp.Init; // Initialize
+MyApp.Run; // Execute
+MyApp.Done; // Release
 end.
+
 //code-
