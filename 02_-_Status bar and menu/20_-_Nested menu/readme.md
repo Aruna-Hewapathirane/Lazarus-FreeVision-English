@@ -18,22 +18,10 @@ R: TRect; // Rectangle for the status bar position.
 begin
 GetExtent(R);
 R.A.Y := R.B.Y - 1;
+
 ```pascal
 
-```````````````````````````````````````)`````````````````````````````````
-`
-`
 
-`
-`
-`
-`
-`
-`
-```
-`````````````
-
-``
 ... StatusLine := New(PStatusLine, Init(R, NewStatusDef(0, $FFFF,
 
 NewStatusKey('~Alt+X~ Exit Program', kbAltX, cmQuit,
