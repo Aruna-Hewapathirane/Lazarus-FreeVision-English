@@ -1,39 +1,40 @@
-# 01 - Einfuehrung
-## 05 - Erster Desktop
+# 01 - Introduction
+## 05 - First Desktop
 
 ![image.png](image.png)
 
-Minimalste Free-Vision Anwendung
+Minimal FreeVision Application
 
 ---
-Programm-Name, wie es bei Pascal üblich ist.
+Program name, as is customary in Pascal.
 
 ```pascal
 program Project1;
+
 ```
 
-Das überhaupt Free-Vision möglich ist, muss die Unit **App** eingebunden werden.
+For FreeVision to be possible at all, the **App** unit must be included.
 
 ```pascal
 uses
-  App;   // TApplication
+App; // TApplication
 ```
 
-Deklaration für die Free-Vision Anwendung.
+Declaration for the FreeVision application.
 
 ```pascal
 var
-  MyApp: TApplication;
+MyApp: TApplication;
+
 ```
 
-Für die Abarbeitung sind immer die drei Schritte notwendig.
+The three steps are always necessary for execution.
 
 ```pascal
 begin
-  MyApp.Init;   // Inizialisieren
-  MyApp.Run;    // Abarbeiten
-  MyApp.Done;   // Freigeben
+MyApp.Init; // Initialize
+MyApp.Run; // Execute
+MyApp.Done; // Release
 end.
+
 ```
-
-
