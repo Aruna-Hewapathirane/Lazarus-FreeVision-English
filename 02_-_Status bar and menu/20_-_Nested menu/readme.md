@@ -7,7 +7,6 @@ Menu items can also be nested within each other.
 
 ---
 I've nested the entries in the status bar, so no pointers are needed.
-
 I also find this clearer than a jungle of variables.
 
 ```pascal
@@ -15,17 +14,12 @@ I also find this clearer than a jungle of variables.
 procedure TMyApp.InitStatusLine;
 
 var
-
 R: TRect; // Rectangle for the status bar position.
-
 begin
-
 GetExtent(R);
-
 R.A.Y := R.B.Y - 1;
+```pascal
 
-
-```pascal`
 ```````````````````````````````````````)`````````````````````````````````
 `
 `
