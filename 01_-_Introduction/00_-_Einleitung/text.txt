@@ -1,59 +1,80 @@
 (*
-<b>Free Vision</b> ist die freie Variante von Turbo-Vision, welche bei Turbo-Pascal dabei war.
-Viele denken, das FV etwas veraltetes aus dem DOS-Zeitalter sei.
-Für normale Desktop-Anwendungen stimmt dies zu.
-Aber es gibt Anwendungen, wo dies heutzutage noch sehr praktisch ist.
-Sehr gutes Beispiel ist bei einem <b>Telnet</b>-Zugriff.
-Oder bei einem Server, der keine grafische Oberfläche hat.
+Free Vision is the free version of Turbo Vision, which was included with Turbo Pascal.
+Many people think that Free Vision is something outdated from the DOS era. For normal desktop applications, this is true.
 
-Welcher Linux-Freak hat sich nicht schon mit <b>vi</b> oder <b>nemo</b> rumärgern müssen.
-Hätte Linux ein FV-Editor an Board, währe das Leben viel leichter. ;-)
+But there are applications where it's still very practical today. A very good example is Telnet access.
 
-Aus diesem Grund beschäftige ich mich mit momentan mit <b>Free Vision</b>.
-Vieles dafür habe ich in den Quellen von FV abgeguckt, auch habe ich noch etwas auf einer alten Diskette von einem Tubo-Pascal Buch gefunden.
-Auch im Internet findet man noch das eine und andere.
-Da ich meine Erfahrung teilen will, erstelle ich dieses Tutorial.
+Or a server that doesn't have a graphical interface.
 
-Ich hoffe das Ganze ist verständlich, obwohl es sicher viele Rechtschreibe-Fehler hat. :-D
+Which Linux enthusiast hasn't had to deal with vi or nemo?
 
-Wen jemand noch Anregungen und Fehler sieht, kann er seine Kritik im deutschen Lazarus-Forum miteilen. ;-)
+If Linux had a built-in Free Vision editor, life would be much easier. ;-)
+
+That's why I'm currently working with Free Vision.
+
+I've gleaned a lot of information from the Free Vision source code, and I also found some on an old floppy disk from a Turbo Pascal book.
+
+You can also find some information online.
+
+Since I want to share my experience, I'm creating this tutorial.
+
+I hope it's understandable, even though it probably has a lot of spelling mistakes. :-D
+
+If anyone has suggestions or sees any errors, they can share their feedback in the German Lazarus forum. ;-)
+
 //link http://www.lazarusforum.de/viewtopic.php?f=22&t=11063&p=98205&hilit=freevision#p98205
 
-Die Sourcen zum Tutorial, kann man alle auf der Hauptseite herunterladen.
-Es ist eine Zip.
+The source code for the tutorial can all be downloaded from the main page.
+
+It's a ZIP file.
+
 *)
-//lineal
+
+//ruler
 (*
-<b>Hinweise zu den Coden:</b>
+<b>Notes on the Code:</b>
 
-Free Vision verwendet Codepage 437.
-Aus diese Grund sollte man für eine fehlerfreie Darstellung der Umaute, diese als Char-Konstante verwenden.
+Free Vision uses code page 437.
+For this reason, umlauts should be used as character constants for error-free rendering.
+
 //code+
-ä = #132  Ä = #142
-ö = #148  Ö = #153
-ü = #129  Ü = #154
+ä = #132 Ä = #142
+ö = #148 Ö = #153
+ü = #129 Ü = #154
 //code-
 
-<b>Genereller Hinweis:</b>
-Wen man zur Laufzeit Texte ändern will, zB. <b>Label</b>, <b>StaticText</b>, ist Vorsicht geboten.
-Da die Texte <b>PString</b> gespeichert sind, ist darauf zu achten, das man im Konstruktor (Init) schon genügend Speiher für die Texte reserviert.
-Am einfachsten geht dies so, somit hat es dann genügend Platz noch für <b>world</b>.
+<b>General Note:</b>
+Caution is advised when modifying text at runtime, e.g., <b>Label</b>, <b>StaticText</b>.
+
+Since the text is stored as <b>PString</b>, it is important to ensure that sufficient memory is reserved for the text in the constructor (Init).
+
+The easiest way to do this is as follows, thus leaving enough space for <b>world</b>.
+
 //code+
-  StaticText := new(PStaticText, Init(Rect, 'Hallo           '));
-  StaticText^.Text^ := 'Hello world';
-//code-
+
+StaticText := new(PStaticText, Init(Rect, 'Hello '));
+
+StaticText^.Text^ := 'Hello world';
+
+/code-
 
 <b>TListBox</b>
-Bei der Komponenten <b>TListBox<b> ist Vorsicht geboten, die <b>TList</b> welche man hier zuordnet, muss man selbst in einem <b>Destructor</b> aufräumen.
-Beispiele gibt es im Kapitel <b>Listen und ListBoxen</b>.
+Caution is advised when using the <b>TListBox</b> component. The <b>TList</b> assigned here must be cleaned up manually using a <b>Destructor</b>.
 
-<b>Genereller Hinweis 64Bit:</b>
-Bei 64Bit Coden, kann es Fehler geben, <s>das betrifft vor allem Funktionen, welche <b>FormatStr</b> verwenden.</s>
-Das sieht man leider gut mit der Zeilen und Spalten-Anzeige der Fenster.
+Examples can be found in the chapter <b>Lists and ListBoxes</b>.
+
+<b>General Note 64-bit:</b>
+When coding with 64-bit, errors can occur, <s>this primarily affects functions that use <b>FormatStr</b>.</s>
+This is unfortunately quite noticeable in the row and column display of the windows.
 
 <b>Turbo-Vision</b>
-In diesem Tutorial gibt es Sachen, welche <b>nicht</b> 100% kompatibel zu <b>Turbo-Vision</b> sind.
-Gewisse Komponenten und Funktionen wurden erst mit <b>Free-Vision</b> von <b>FPC</b> eingeführt.
-da gehört zB. <b>TabSheet dazu.</b>
-Es gibt auch Funktionen, welche es nur in Turbo-Vision gibt.
+
+This tutorial contains elements that are <b>not</b> 100% compatible with <b>Turbo-Vision</b>.
+
+Certain components and functions were only developed with Free Vision was introduced by FPC.
+
+This includes, for example, TabSheet.
+
+There are also features that are only available in Turbo Vision.
+
 *)
