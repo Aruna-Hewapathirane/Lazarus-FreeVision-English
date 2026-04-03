@@ -1,49 +1,52 @@
-# 02 - Statuszeile und Menu
-## 30 - Menu Hinweise
+# 02 - Status Bar and Menu
+## 30 - Menu Hints
 
 ![image.png](image.png)
 
-Hinweise in der Statuszeile der Menü-Punkte.
+Hints in the status bar of the menu items.
 
 ---
-Konstanten der einzelnen Hilfen.
-Am besten mimmt man da hcxxx Namen.
+Constants of the individual hints.
+
+It's best to use hcxxx names for these.
 
 ```pascal
 const
-  cmList   = 1002;  // Datei Liste
-  cmAbout  = 1001;  // About anzeigen
 
-  hcFile   = 10;
-  hcClose  = 11;
-  hcOption = 12;
-  hcFormat = 13;
-  hcEdit   = 14;
-  hcHelp   = 15;
-  hcAbout  = 16;
+cmList = 1002; // File list
+cmAbout = 1001; // Display About
+
+hcFile = 10;
+hcClose = 11;
+hcOption = 12;
+hcFormat = 13;
+hcEdit = 14;
+hcHelp = 15;
+hcAbout = 16;
+
 ```
 
-Die Hint-Zeile muss vererbt werden.
+The hint line must be inherited.
 
 ```pascal
-  procedure TMyApp.InitMenuBar;
-  var
-    R: TRect;                   // Rechteck für die Menüzeilen-Position.
-  begin
-    GetExtent(R);
-    R.B.Y := R.A.Y + 1;
 
-    MenuBar := New(PMenuBar, Init(R, NewMenu(
-      NewSubMenu('~D~atei', hcFile, NewMenu(
-        NewItem('~B~eenden', 'Alt-X', kbAltX, cmQuit, hcClose, nil)),
+procedure TMyApp.InitMenuBar;
+var
+R: TRect; // Rectangle for the menu bar position.
 
-      NewSubMenu('~O~ptionen', hcOption, NewMenu(
-        NewItem('~F~ormat', '', kbNoKey, cmAbout, hcFormat,
-        NewItem('~E~itor', '', kbNoKey, cmAbout, hcEdit, nil))),
+begin
+GetExtent(R);
+R.B.Y := R.A.Y + 1;
 
-      NewSubMenu('~H~ilfe', hcHelp, NewMenu(
-        NewItem('~A~bout...', '', kbNoKey, cmAbout, hcAbout, nil)), nil))))));
-  end;
+``` MenuBar := New(PMenuBar, Init(R, NewMenu( 
+NewSubMenu('~File', hcFile, NewMenu( 
+NewItem('~B~end', 'Alt-X', kbAltX, cmQuit, hcClose, nil)), 
+
+NewSubMenu('~Options', hcOption, NewMenu( 
+NewItem('~F~ormat', '', kbNoKey, cmAbout, hcFormat, 
+NewItem('~E~itor', '', kbNoKey, cmAbout, hcEdit, nil))), 
+
+NewSubMenu('~Help', hcHelp, NewMenu( 
+NewItem('~A~bout...', '', kbNoKey, cmAbout, hcAbout, nil)), nil)))))); 
+end;
 ```
-
-
