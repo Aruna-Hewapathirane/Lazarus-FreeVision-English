@@ -1,53 +1,60 @@
-# 02 - Statuszeile und Menu
-## 00 - Status Zeile
+# 02 - Status Line and Menu
+## 00 - Status Line
 
 ![image.png](image.png)
 
-Ändern der Status-Zeile.
-Die Statuszeile wird gebraucht um wichtige Information und HotKey anzuzeigen.
+Changing the status line.
+
+The status line is used to display important information and hotkeys.
 
 ---
-Für die Statuszeile werden noch verschiedene Units gebraucht.
+Several units are needed for the status line.
 
 ```pascal
 uses
-  App,      // TApplication
-  Objects,  // Fensterbereich (TRect)
-  Drivers,  // Hotkey
-  Views,    // Ereigniss (cmQuit)
-  Menus;    // Statuszeile
+App, // TApplication
+Objects, // Window area (TRect)
+Drivers, // Hotkey
+Views, // Events (cmQuit)
+Menus; // Status line
 ```
 
-Wen man etwas ändern will, muss man TApplication vererben.
-Hier im Beispiel, wird die Statuszeile abgeändert, dazu muss man die Procedure **InitStatusLine** überschreiben.
+To make changes, you must inherit from TApplication.
+
+In this example, the status line is changed; to do this, you must override the procedure **InitStatusLine**.
 
 ```pascal
-  procedure TMyApp.InitStatusLine;
-  var
-    R: TRect;           // Rechteck für die Statuszeilen Position.
-  begin
-    GetExtent(R);       // Liefert die Grösse/Position der App, im Normalfall 0, 0, 80, 24.
-    R.A.Y := R.B.Y - 1; // Position der Statuszeile, auf unterste Zeile der App setzen.
+procedure TMyApp.InitStatusLine;
 
-    StatusLine := New(PStatusLine, Init(R, NewStatusDef(0, $FFFF, NewStatusKey('~Alt+X~ Programm beenden', kbAltX, cmQuit, nil), nil)));
-  end;
+var
+R: TRect; // Rectangle for the status line position.
+
+begin
+GetExtent(R); // Returns the size/position of the app, normally 0, 0, 80, 24.
+
+R.A.Y := R.B.Y - 1; // Position of the status line, set to the bottom line of the app.
+
+StatusLine := New(PStatusLine, Init(R, NewStatusDef(0, $FFFF, NewStatusKey('~Alt+X~ Exit Program', kbAltX, cmQuit, nil), nil)));
+
+end;
+
 ```
 
-Das die neue Statuszeile verwendet wird muss man den Nachkomme anstelle von **TApplication** deklarieren.
+To use the new status line, you must declare the decimal instead of **TApplication**.
 
 ```pascal
 var
-  MyApp: TMyApp;
+MyApp: TMyApp;
+
 ```
 
-Die  bleibt gleich.
+This remains the same.
 
 ```pascal
 begin
-  MyApp.Init;   // Inizialisieren
-  MyApp.Run;    // Abarbeiten
-  MyApp.Done;   // Freigeben
+MyApp.Init; // Initialize
+MyApp.Run; // Execute
+MyApp.Done; // Release
 end.
+
 ```
-
-
