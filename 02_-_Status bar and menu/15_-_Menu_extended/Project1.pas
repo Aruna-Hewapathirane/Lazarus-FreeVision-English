@@ -1,61 +1,44 @@
 //image image.png
 (*
 Add multiple menu items.
-
 Here, this is also done in a split format for clarity.
-
 *)
 //ruleral
 program Project1;
 
 uses
 
-App, // TApplication
-
+App,     // TApplication
 Objects, // Window area (TRect)
-
 Drivers, // Hotkey
-
-Views, // Event (cmQuit)
-
-Menu; // Status bar
+Views,   // Event (cmQuit)
+Menu;    // Status bar
 
 (*
 For custom commands, you need to define command code.
-
 It is recommended to use values ​​> 1000 to avoid conflicts with the standard codes.
-
 *)
+
 //code+
 const
 cmList = 1002; // File list
 cmAbout = 1001; // Display About
-
 //code-
 
-(*
-For a menu, you need to inherit <b>InitMenuBar</b>.
-
-*)
+(* For a menu, you need to inherit <b>InitMenuBar</b>. *)
 
 //code+
 type
 TMyApp = object(TApplication)
-
 procedure InitStatusLine; virtual; // Status bar
-
 procedure InitMenuBar; virtual; // Menu
-
 end;
-
 /code-
 
 procedure TMyApp.InitStatusLine;
 
 var
-
-R: TRect; // Rectangle for the status bar position.
-
+R: TRect;       // Rectangle for the status bar position.
 P0: PStatusDef; // Pointer to the entire entry.
 
 P1, P2, P3: PStatusItem; // Pointer to the individual hotkeys.
@@ -63,17 +46,11 @@ P1, P2, P3: PStatusItem; // Pointer to the individual hotkeys.
 begin
 
 GetExtent(R);
-
 R.A.Y := R.B.Y - 1;
-
 P3 := NewStatusKey('~F1~ Help', kbF1, cmHelp, nil);
-
 P2 := NewStatusKey('~F10~ Menu', kbF10, cmMenu, P3);
-
 P1 := NewStatusKey('~Alt+X~ Exit Program', kbAltX, cmQuit, P2);
-
 P0 := NewStatusDef(0, $FFFF, P1, nil);
-
 StatusLine := New(PStatusLine, Init(R, P0));
 
 end;
@@ -89,93 +66,6 @@ Whether you nest or split them is a matter of preference.
 
 `/``
 ` ...
-``
-``
-`
-`
-`
-`
-`
-`
-`
-`
-`
-`
-`
-`
-`
-`
-`
-`
-`
-`
-`
-`
-`
-`
-`
-`
-`
-`
-`
-`
-`
-`
-`
-`
-`
-`
-`
-`
-`
-`
-`
-`
-`
-`
-`
-`
-`
-`
-`
-`
-`
-`
-`
-`
-`
-`
-`
-`
-`
-`
-`
-`
-`
-`
-`
-`
-`
-`
-`
-`
-`
-`
-`
-`
-`
-`
-`
-`
-`
-`
-`
-`
-`
-`
-`
-`
-`
 ` R.B.Y := R.A.Y + 1; 
 
 M1_0 := NewItem('~A~bout...', '', kbNoKey, cmAbout, hcNoContext, nil); 
