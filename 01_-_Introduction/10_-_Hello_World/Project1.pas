@@ -1,22 +1,35 @@
 //image image.png
+
 (*
-Ein Hello World mit Free-Vision.
-Der Text wird in einer Message-Box ausgegeben.
+A Hello World with FreeVision.
+
+The text is displayed in a message box.
+
 *)
-//lineal
+
+//ruler
+
 //code+
 program Project1;
 
 uses
-  App, MsgBox;
+
+App, MsgBox;
+
 var
-  MyApp: TApplication;
+
+MyApp: TApplication;
 
 begin
-  MyApp.Init;
-  MessageBox('Hello World !', nil, mfOKButton);
-  // MyApp.Run;   // Wen es weiter gehen soll.
-  MyApp.Done;
-end.
-//code-
 
+MyApp.Init;
+
+MessageBox('Hello World!', nil, mfOKButton);
+
+// MyApp.Run; // If it should continue.
+
+MyApp.Done;
+
+end.
+
+//code-
