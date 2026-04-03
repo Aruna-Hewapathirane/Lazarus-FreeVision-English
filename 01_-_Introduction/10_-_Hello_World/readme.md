@@ -1,10 +1,11 @@
-# 01 - Einfuehrung
+# 01 - Introduction
 ## 10 - Hello World
 
 ![image.png](image.png)
 
-Ein Hello World mit Free-Vision.
-Der Text wird in einer Message-Box ausgegeben.
+A Hello World with FreeVision.
+
+The text is displayed in a message box.
 
 ---
 
@@ -12,16 +13,23 @@ Der Text wird in einer Message-Box ausgegeben.
 program Project1;
 
 uses
-  App, MsgBox;
+
+App, MsgBox;
+
 var
-  MyApp: TApplication;
+
+MyApp: TApplication;
 
 begin
-  MyApp.Init;
-  MessageBox('Hello World !', nil, mfOKButton);
-  // MyApp.Run;   // Wen es weiter gehen soll.
-  MyApp.Done;
+
+MyApp.Init;
+
+MessageBox('Hello World!', nil, mfOKButton);
+
+// MyApp.Run; // To continue.
+
+MyApp.Done;
+
 end.
+
 ```
-
-
